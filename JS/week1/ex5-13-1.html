@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #rec{
+            width: 100px; height: 200px; background-color: red;
+            /* 어떤 효과든 0.8초 주겠다. */
+            transition-duration: 0.8s; 
+        }
+        #rec:hover{
+            width: 200px; height: 100px; background-color: green;
+        }
+        #rec:active{
+            width: 200px; height: 100px; background-color: blue; border-radius: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="rec"></div>
+    </div>
+    
+</body>
+</html>

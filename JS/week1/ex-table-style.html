@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    table{
+        background-color: aliceblue;
+    }
+    /* 홀수 번 째 엘리먼트에만 css 적용 
+       odd 는 홀수 even은 짝수, 3n같은 것 배수도 가능
+    */
+    tr:nth-child(odd){
+        background-color: gray;
+    }
+    td{
+        text-align: center; width: 60px;
+    }
+</style>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <td>1</td><td>2</td>
+        </tr>
+        <tr>
+            <td>팽수</td><td>길동</td>
+        </tr>
+        <tr>
+            <td>3</td><td>4</td>
+        </tr>
+        <tr>
+            <td>동길</td><td>길수</td>
+        </tr>
+    </table>
+    
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입력 사이즈로 table 만들기</title>
+</head>
+<body>
+    <h3>사용자의 입력 수 만큼 행 X 열 만들기</h3>
+   <hr>
+   <script>
+        let tr = prompt("몇 개의 열로 그릴까요?");
+        let td = prompt("몇 개의 행으로 그릴까요?");
+
+        document.write("<table border='1'>");
+        for(i=1; i<=tr; i++){
+            document.write("<tr>")
+            for(j=1; j<=td; j++){
+                document.write("<td>"+i+"X"+j+"</td>")
+            }document.write("</tr>")
+        }document.write("</table>")
+    </script>
+</body>
+</html>

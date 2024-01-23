@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function fn_over(obj){
+            obj.src = "./img/banana.PNG";
+        }
+        function fn_out(obj){
+            obj.src = './img/apple.PNG';
+        }
+    </script>
+</head>
+<body>
+    <img src="./img/apple.PNG" alt="" onmouseover="fn_over(this)"
+            onmouseout="fn_out(this)">
+    
+</body>
+</html>

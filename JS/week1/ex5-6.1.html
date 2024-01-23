@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    div{
+        position: absolute;
+    }
+    img{
+        position: absolute;
+    }
+    #img1{
+        z-index: -1; 
+    }
+    #img2{
+        z-index: 1; left: 150px; top: 150px;
+    }
+    
+</style>   
+</head>
+<body>
+    <h1>z-index 앞 뒤에 위치시키기</h1>
+    <hr>
+    <div>
+        <img src="./img/apple.PNG" id="img1" width="400px" height="400px">
+        <img src="./img/banana.PNG" id="img2" width="400px" height="400px"> 
+    </div>
+</body>
+</html>
