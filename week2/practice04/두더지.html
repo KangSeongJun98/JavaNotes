@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>두더지 게임</title>
+    <style> .game-board { width: 600px; height: 600px; position: relative;}
+            .mole { width: 100px; height: 100px; 
+                    position: absolute; display: none;}
+            .mole:hover { cursor: pointer;}
+            .mole:active {opacity: 0.5;}
+                       
+            
+    </style>
+</head>
+<body>
+    <h1>점수 : <span id="score">0</span></h1>
+    <h1>남은시간: <span id="time">30</span></h1>
+    <div class="game-board">
+        <img src="./img/두더지.PNG" class="mole" id="mole" alt="">
+    </div>
+    <script>
+        let score = 0; //게임점수
+        let time = 30;  //게임시간
+        let gameInterval;
+        let mole = document.getElementById("mole"); //두더지
+        let spanScore = document.getElementById("score");
+        let spanTime = document.getElementById("time");
+
+        viewMole=()=>{
+        randomPosition();
+        mole.style.display ='block';
+        setTimeout(hideMole,1000)//1초 뒤에 hideMole 진행
+        }
+        gameInterval = setInterval(viewMole,2000); //2초 마다 함수 호출
+        
+        hideMole=()=>{
+            mole.style.display ='none';
+        }
+
+        randomPosition=()=>{
+            let x = Math.floor(Math.random(50)*500);
+            let y = Math.floor(Math.random(50)*500);
+            mole.style.left = x+"px";
+            mole.style.top = `${y}px`; // 변수값이 문자열에 맵핑될 때 사용 ex6버전부터 사용 가능
+        }
+
+        mole.addEventListener('click',function(){
+            score++
+            spanScore.innerText = score;
+            hideMole();
+        });
+
+        //시간 감소
+        let timeInterval = setInterval(function(){
+            time--;
+            spanTime.innerHTML=time;
+            if(time==0){
+                clearInterval(gameInterval);
+                clearInterval(timeInterval);
+                alert(`게임 종료 당신의 점수는 ${score}점 입니다.`)
+                location.reload();
+            }
+        },1000)
+
+    </script>
+</body>
+</html>

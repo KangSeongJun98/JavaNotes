@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>날짜 객체</title>
+    <script>
+        
+    let now = new Date(); //현재시간
+    console.log('now: '+now);
+    console.log('getDate: '+now.getDate()+"");
+    document.write("getDate: "+now.getDate()+"<br>");
+    // Month는 0부터 시작
+    document.write("getMonth: " +(now.getMonth()+1) + "<br>");
+    document.write("getFullYear: " +now.getUTCFullYear() + "<br>");
+
+    // 1970년 1월 1일 00:00::00 UTC부터 현재까지의 밀리초를 출력 *1000하면 초 나옴
+    //세계 표준시간을 기준으로 표시 됨 (한국시간 아님)
+    document.write("getTime: " +now.getTime() + "<br>");
+    document.write("toString(): " +now.toString() + "<br>");
+    document.write("now: "+ now+"<br>");
+    document.write("toUTCString: "+now.toUTCString()+1 + "<br>");
+    
+    alert("대기중");
+    let after = new Date();
+    document.write((after.getTime()-now.getTime())/1000 +"초 경과");
+    </script>
+</head>
+<body>
+    </body>
+</html>

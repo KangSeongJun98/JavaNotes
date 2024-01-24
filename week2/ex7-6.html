@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Method</title>
+</head>
+<body>
+    <h3>String method</h3>
+    <hr>
+    <script>
+        let a="Boys and Girls"
+        //concat = 문자열+문자열
+        console.log(a.concat("입니다."))
+        //indexOf
+        console.log("indexOf",a.indexOf("s"))
+        console.log("indexOf",a.indexOf("S")) //없으면 -1
+        //slice로 인덱스 가져오기
+        console.log("slice:",a.slice(5,8));
+        //substr 시작인덱스부터 길이까지 자르겠다. slice랑 유사함
+        console.log('substr:',a.substr(5,3));
+        let sub = a.split(" ");
+        console.log(sub);
+        //replace 바꾸기
+        console.log(a.replace("and","or"));
+        //upper or lower
+        console.log(a.toUpperCase());
+        console.log(a.toLowerCase());
+    </script>
+</body>
+</html>
