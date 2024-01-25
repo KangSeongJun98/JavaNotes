@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>이미지 크기 출력</title>
+    <script>
+        fn_change=()=>{
+            let sel = document.getElementById("sel");
+            let img = document.getElementById("myImg")
+            img.onload = function(){ //img가 로딩 된 후에 넓이 높이 값을 가져와야 함
+                let mySpan = document.getElementById("mySpan");
+                mySpan.innerHTML = img.width+'x'+img.height;
+            }
+            // let idx = sel.selectedIndex;
+            img.src = sel.options[sel.selectedIndex].value;
+        }
+    </script>
+</head>
+<body onload="fn_change()">
+    <h3>onload로 이미지 크기 출력</h3>
+    <hr>
+    <form>
+        <select name ="" id = "sel" onchange="fn_change()">
+            <option value="./img/prod1.jpg">사진 1번</option>
+            <option value="./img/prod2.jpg">사진 2번</option>
+            <option value="./img/prod3.jpg">사진 3번</option>
+        </select>
+        <span id = "mySpan">이미지 크기 출력</span>
+    </form>
+    <p><img src="" id="myImg" alt=""></p>
+</body>
+</html>

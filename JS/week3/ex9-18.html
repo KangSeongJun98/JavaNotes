@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>input의 checkBox</title>
+</head>
+<body>
+    <div>
+        <h3>취미를 선택하세요</h3>
+        <span>
+            <label for="all">전체 <input type="checkbox" id = "all" name="all" onchange="all_check(this)">
+            </label>
+        </span>
+    </div>
+    <div>
+        <label for="read">독서<input type="checkBox" name="hobby" id = "read" value="read"></label>
+        <label for="game">게임<input type="checkBox" name="hobby" id = "game" value="game"></label>
+        <label for="cook">요리<input type="checkBox" name="hobby" id = "cook" value="cook"></label>
+        <label for="surf">서핑<input type="checkBox" name="hobby" id = "surf" value="surf"></label>
+        <input type="button" value="확인" onclick="fn_check()">
+        <input type="reset" value="초기화">
+        <!-- butoon tag는 디폴트가 전송임 type submit과 유사 -->
+        <!-- <button>전송</button> -->
+    </div>
+    <script>
+        fn_check=()=>{
+            let objs = document.getElementsByName("hobby");
+            let msg = "당신의 취미는";
+            for(i = 0; i<objs.length; i++){
+                if(objs[i].checked){
+                    msg += objs[i].value+ ":" + objs[i].parentElement.innerText+ " ";
+                }
+            }
+            alert(msg+"입니다.")
+        }
+
+        all_check=(obj)=>{
+            let arr = document.getElementsByName("hobby");
+            let flag = obj.checked;
+                    for(i = 0; i<arr.length; i++){
+                        arr[i].checked = flag;
+                    }
+                }
+    </script>
+</body>
+</html>

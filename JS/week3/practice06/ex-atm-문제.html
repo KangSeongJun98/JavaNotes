@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+        }
+        #container {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        #center {  
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        form > * { 
+            margin: 10px 0; 
+            text-align: center; 
+        }
+        fieldset { 
+            width: 300px; 
+            margin: 0; 
+            padding: 10px; 
+        }
+    </style>
+    <title>ATM기</title>
+</head>
+<body>
+    <div id="container">
+        <div id="center">
+            <img src="./img/ATM.JPG" alt="">
+            <form action="#">
+                <p><label for="">계좌:</label><input type="text" id="acc"></p>
+                <p><label for="">비번:</label><input type="password" id="pw"></p>
+                <p><label for="">금액:</label><input type="text" id="amount"></p>
+                <fieldset id="func">
+                    <legend>ATM 기능</legend>
+                    <input type="button" value="입금" onclick="fn_deposit()">
+                    <input type="button" value="출금" onclick="fn_withdraw()">
+                    <button type="button" onclick="fn_inquiry()">조회</button>
+                    <input type="reset" value="종료" onclick="fn_er()">
+                </fieldset>
+                <fieldset id="content">
+                    <legend>내용</legend>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <script>
+        let acc = document.getElementById("acc")
+        let pw = document.getElementById("pw")
+        let amount = document.getElementById("amount")
+        let accountArr = [];
+        let content = document.getElementById("content");
+        let current_idx;
+
+        let obj_user = { account : "12345"
+                        ,pw: "1234"
+                        ,user: "팽수"
+                        ,balance: 10000};
+        accountArr.push(obj_user);
+        accountArr[1]={ account: "1111"
+                        ,pw: "1111"
+                        ,user:"길동"
+                        ,balance:10
+        }
+        //조회
+        function fn_inquiry(){
+            // 입력 계좌번호, 입력패스워드 가져와서
+            // 객체의 계좌, 입력이 맞을 경우 화면에 출력
+            // 없다면 계좌정보가 없습니다. 출력
+            // 화면출력은 content에 p 태그를 만들어 넣어주면 예쁘게 출력됨
+            for(i in accountArr){
+                if(acc.value == accountArr[i]['account']&& pw.value==accountArr[i]['pw']){
+                    console.log("아이디 비번 동일")
+                    content.innerHTML = '<p>'+ accountArr[i]['user']+'<br>'
+                         + '잔액: '+accountArr[i]['balance']+'<p>'
+            }
+        }
+    }
+
+        function fn_deposit(){     
+            //입금
+            for(i in accountArr){
+                if(acc.value == accountArr[i]['account']&& pw.value==accountArr[i]['pw']){
+                    console.log("아이디 비번 동일")
+                    accountArr[i]['balance'] +=  parseInt(amount.value);
+                    content.innerHTML = '<p>'+ accountArr[i]['user']+'<br>'
+                         + '잔액: '+accountArr[i]['balance']+'<p>'
+            }
+        }
+    }
+        function fn_withdraw(){
+            for(i in accountArr){
+            if(acc.value == accountArr[i]['account']&& pw.value==accountArr[i]['pw']){
+                    console.log("아이디 비번 동일")
+                    if(accountArr[i]['balance'] <  parseInt(amount.value)){
+                        content.innerHTML = "잔액이 부족합니다."
+                    }else{
+                    accountArr[i]['balance'] -=  parseInt(amount.value);
+                    content.innerHTML = '<p>'+ accountArr[i]['user']+'<br>'
+                         + '잔액: '+accountArr[i]['balance']+'<p>'
+                }
+            }
+        }
+    }
+        function fn_er(){
+            window.close(this)
+        }
+    </script>
+</body>
+</html>

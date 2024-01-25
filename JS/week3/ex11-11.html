@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>그림판</title>
+    <style>
+        canvas{cursor:url(./css/b.cur),auto;}
+    </style>
+</head>
+<body onload="init()">
+    <h3>마우스를 누른채 드래깅하여 그림을 그려요</h3>
+    <hr>
+    <canvas id= "myCanvas" width="400px" height="300px"
+    style="background-color: aliceblue;"></canvas>
+    <div>
+        <table>
+            <tr>
+                <td>컬러</td><td><input type="color" id="tool" onchange="change(this)"></td>
+            </tr>
+            <tr>
+                <td>사이즈</td><td><input type="range" id="size" min="1" max="30" value="1" onchange="change(this)"></td>
+            </tr>
+            <tr>
+                <td>
+                    그림<input type="radio" name = "tool" value="b" onchange="change(this)" checked >
+                    지우개<input type="radio" name = "tool" value="e" onchange="change(this)">
+                </td>
+                <td><button onclick="allDel()">전차삭제</button><button onclick="fn_save()">저장하기</button></td>
+            </tr>
+
+        </table>
+    </div>
+    <script>
+        let canvas , context;
+        let startX, StartY = 0;
+        let dragging = false;
+        let tools = 'b'; // b그림 e 지우개
+        let size = 10;
+        fn_save=()=>{
+            //임시 캔버스 생성
+            let tempCanvas = document.createElement("canvas");
+            tempCanvas.width = canvas.width
+            tempCanvas.height = canvas.heigth;
+            //임시 캔버스에 배경 색 채우기
+            let tempContext = tempCanvas.getContext("2d");
+            tempContext.fillStyle = 'aliceblue'
+            tempContext.fillRect(0,0,tempCanvas.width, tempCanvas.height);
+            // 원본애용 복사
+            tempCanvas.drawImage(canvas, 0, 0)
+
+            let img = tempCanvas.toDataURL("image/png").replace('image/png', 'image/octet-stream')
+            let temp = document.createElement('a');
+            temp.download = 'my-canvas.png'
+            temp.href = img;
+            temp.click();
+        }
+
+        allDel=()=>{
+            context.clearRect(0,0,canvas.width,canvas.height);
+        }
+
+        change=(e)=>{
+            if(e.id == 'tool'){
+            context.strokeStyle = e.value
+            }else if(e.id == 'size'){
+            context.lineWidth = e.value
+            size = e.value
+            }else if(e.name == 'tool'){
+                tools = e.value
+                if(tools == 'e'){
+                    canvas.style.cursor = 'url(./css/e.cur), auto'
+                }else{
+                    canvas.style.cursor = 'url(./css/b.cur), auto'
+                }
+            }
+        }
+
+        init=()=>{
+            let color = document.getElementById("tool").value
+            canvas = document.getElementById("myCanvas")
+            context = canvas.getContext("2d");
+            context.strokeStyle = color
+            context.lineWidth = 2;
+            context.lineCap = 'round'
+            canvas.addEventListener('mousedown',down)
+            canvas.addEventListener('mouseup',up)
+            canvas.addEventListener('mousemove',move)
+            canvas.addEventListener('mouseout',out)
+        }
+
+
+        down=(e)=>{
+            startX = e.offsetX;
+            startY = e.offsetY; //클릭하여 움직임을 시작하는 위치
+            dragging = true;
+        }
+        up = (e)=>{
+            dragging =false; //움직여도 더이상 그려지지 않도록
+        }
+        out = (e) =>{
+            dragging = false; //아웃되도 그려지지 않도록
+        }
+
+        move=(e)=>{
+            if(!dragging){
+                return;
+            }
+            let curX = e.offsetX;
+            let curY = e.offsetY
+            draw(curX, curY);
+            startX = curX;
+            startY = curY;
+        }
+        draw=(curX, curY)=>{
+
+            if(tools == 'b'){
+                context.beginPath();
+                context.moveTo(startX, startY)
+                context.lineTo(curX, curY);
+                context.stroke();
+            }else{
+                context.clearRect(curX,curY,size,size);
+        }
+    }
+    </script>
+</body>
+</html>

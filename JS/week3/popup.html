@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>popup</title>
+    <script>
+        let checkbox = document.getElementById("pop");
+        
+        function setCookie(name, val, expireDate){
+            let cookieStr = name+"="+escape(val) +
+            //삼항연산자를 통해 값이 없다면 공백을 있다면 문자를 포함시키게
+               ((expireDate == null)? "":  ("; expires="+expireDate.toUTCString()))
+            document.cookie = cookieStr
+        }
+
+        function fn_close(){
+            let expires = new Date();
+            pop = document.getElementById("pop")
+            if(pop.checked){
+                console.log("확인");
+                expires.setTime(expires.getTime()+ (2*(60*1000)));
+                setCookie("pop",'N',expires)
+            }
+            window.close();
+        }
+        
+        
+        
+
+    </script>
+</head>
+<body>
+    <h3>팝업창 등장</h3>
+    <h3>공지 내용</h3>
+    <hr>
+    2분간 열지 않기<input type="checkbox" id = "pop">
+    <input type="button" onclick="fn_close()" value="닫기">
+</body>
+</html>

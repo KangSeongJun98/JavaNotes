@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/nameList.css">
+
+    <script>
+        function fn_register(){
+            //추가 기능
+            let nameList = document.getElementById("nameList");
+            let userName = document.getElementById("userName").value
+            let newDiv = document.createElement("p");
+            newDiv.innerHTML = userName
+            document.getElementById("userName").value = '';
+            nameList.insertBefore(newDiv, nameList.childNodes[0]);
+            
+            //삭제 기능
+            let xbtn = document.createElement("span");
+            xbtn.setAttribute("class","del");
+            xbtn.innerHTML = 'X';
+            newDiv.appendChild(xbtn);
+            xbtn.onclick = function(){
+                nameList.removeChild(this.parentElement)
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="container">
+        <h1>참가 신청서</h1>
+        <form id="myForm">
+            <input type="text" id="userName" placeholder="이름을 입력하세요" required>
+            <button type="button" onclick="fn_register()">신청</button>
+        </form>
+        <hr>
+        <div id="nameList"></div>
+        <script>
+        </script>
+    </div>
+    <script>
+        document.getElementById("myForm").addEventListener('keypress',function(e){
+            if(e.key == 'Enter'){
+                e.preventDefault();
+                fn_register();
+            }
+        });
+    </script>
+</body>
+</html>
