@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비동기 방식으로 요청후 json 데이터 받기</title>
+    <script>
+        let url = "https://api.upbit.com/v1/market/all";
+        let ajax = new XMLHttpRequest(); //비동기 통신을 지원하는 객체
+        function fn_get(){
+            ajax.open("GET", url, true); // ture 부분은 그냥 디폴트 매개변수임
+            ajax.send(); //요청
+        }
+        
+
+        ajax.onreadystatechange = function (){
+            console.log(ajax);
+            // send 해서 통신객체로 요청 후
+            // 응답이 오면 onreadystatechange 이벤트 리스너가 등장
+            // 4 = 데이터를 리턴받았을 때, 200 = HTTP 정상 응답 
+            if(ajax.readyState == 4 && ajax.status == 200){
+                // console.log(ajax.responseText); // 응답 문자열
+                let arr = JSON.parse(ajax.responseText);
+                console.log(arr)
+                let str = '';
+                for(i=0; i<arr.length; i++){
+                    console.log(arr[i]['market']);
+                    // 이스케이프 문자 \' 해서 따옴표를 표현
+                    // str += '<tr onclick="alert(\''+arr[i]['market']+'\')">'
+                    str += '<tr>'
+                    str += '<td>' + arr[i]['market']+'</td>';
+                    str += '<td>' + arr[i]['korean_name']+'</td>';
+                    str += '<td>' + arr[i]['english_name']+'</td>';
+                    str += '</tr>'   
+                }
+                document.getElementById("all_table").innerHTML= str;
+
+                let trs = document.getElementsByTagName("tr");
+                for(i = 0; i<trs.length; i++){
+                    trs[i].addEventListener('click', function(){
+                        alert(this.children[0].innerHTML)
+                    })
+                }
+            }
+        }
+    </script>
+    <style>
+        html, body{
+            margin: 0; padding: 0; height: 100%;
+        }
+        #left_div{float: left; height: 800px; width:45%; overflow: scroll;}
+        table tr:hover{background-color: cadetblue;}
+    </style>
+</head>
+<body>
+    <button type="button" onclick="fn_get()">요청</button>
+    <div class="row">
+        <div id="left_div">
+            <table id = "all_table">
+            </table>
+        </div>
+    </div>
+
+
+</body>
+</html>

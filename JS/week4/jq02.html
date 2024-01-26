@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>애니메이션과 메소드 체이닝</title>
+    <script src="jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#btn').click(function(){
+                // 두번째 매개변수에 속도 (밀리초 기준)
+                $("#year_img").animate({left:'100px'},"slow");
+            });
+
+            $('#btn').dblclick(function(){
+                $("#year_img").animate({left:'0px'},"fast");
+            });
+
+            $("#fadeIn").click(function(){
+                // 나타남
+                $("#banana").fadeIn('slow')
+            });
+
+            $("#fadeOut").click(function(){
+                // 사라짐
+                $("#banana").fadeOut('fast')
+            });
+            $("#all").click(function(){
+                //메소드를 연결 연결해서 사용 가능
+                //slideDown 작업 후 -> fadeIn 작업후 -> fadeOut (메소드 체이닝)
+                $("#banana").slideDown('fast').fadeIn('slow').fadeOut('slow');
+            })
+
+            $("#btn2").click(function(){
+                // 속성 접근:  attr("속성값") // val은 value()
+                alert($("#year_img").attr("src"));
+                //수정
+                $("#year_img").attr("src", "../week1/img/apple.PNG");
+            })
+
+        })
+
+    </script>
+</head>
+<body>
+    <button id="btn">animation()</button>
+    <button id="btn2">get attr()</button><br>
+    <button id="fadeIn">fade in</button>
+    <button id="fadeOut">fade out</button><br>
+    <button id="all">all</button><br>
+    <img src="../week2/practice04/img/두더지.PNG" id="year_img"
+        width="80", height="80" alt="" style="position: relative;">
+    <img src="../week1/img/banana.PNG" id="banana"
+        width="80", height="80" alt="" style="position: relative;">
+</body>
+</html>

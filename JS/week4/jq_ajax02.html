@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.7.1.js"></script>
+    <title>Document</title>
+    <script>
+        $(document).ready(function(){
+            let TOKEN = "8831c10c403fa9b36f7c9a72d6e804ed"
+            $("#btn").click(function(){
+                let q = $("#keyword").val();
+                $.ajax({
+                    url:"https://dapi.kakao.com/v2/search/web"
+                    ,type: "GET"
+                    ,data:{"query":q
+                          ,"page": 2
+                          ,"size":50} 
+                    ,headers:{'Authorization': 'KakaoAK ' + TOKEN}
+                    ,success: function(res){
+                        //console.log(res);
+                        let docs = res['documents']
+                        $.each(docs, function(i, item){
+                            //each 문에서 docs는 원본 i는 순서 item이 알맹이
+                            console.log(item['title'])
+                        })
+                    },error: function(e){
+                        console.log(e)
+                    }
+
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <input type="text" id="keyword" placeholder="검색어를 입력하세요">
+    <input type="button" id="btn" value="검색">
+    <div id = "content"></div>
+
+    <!-- let url = "https://dapi.kakao.com/v2/search/web?sort=accuracy&query="+encoding_query;
+            let ajax = new XMLHttpRequest();
+            ajax.open("GET", url, true);
+            ajax.setRequestHeader('Authorization','KakaoAK 8831c10c403fa9b36f7c9a72d6e804ed')
+            ajax.setRequestHeader('Content-Type','application/json; charset = utf-8' ); -->
+    
+</body>
+</html>

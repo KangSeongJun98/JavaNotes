@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.7.1.js"></script>
+    <title>Document</title>
+    <script>
+        let key = '7f7314005c9a1bb8ee535cedbd043a27';
+        let api_url = 'http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json';
+        $(document).ready(function () {
+            $("#btn").click(function () {
+                let st = $("#st").val().replaceAll("-", "");
+                console.log(st);
+
+                $.ajax({
+                    url: api_url
+                    , data: { key: key, targetDt: st }
+                    , type: "GET"
+                    , dataType: "json"
+                    , success: function (res) {
+                        console.log(res);
+                        let str = ''
+                        let arr = res['boxOfficeResult']['dailyBoxOfficeList'];
+                        $.each(arr, function (i, item) {
+                            str += '<tr>'
+                            str += '<td>' + item['rank'] + '</td>'
+                            str += '<td>' + item['movieNm']+ '</td>'
+                            str += '<td>' + item['openDt']+ '</td>'
+                            str += '<td>' + item['salesAmt']+ '</td>'
+                            str += '<td>' + item['salesAcc']+ '</td>'
+                            str += '<td>' + item['audiCnt']+ '</td>'
+                            str += '<td>' + item['audiAcc']+ '</td>'
+                            str += '<td>' + item['scrnCnt']+ '</td>'
+                            str += '</tr>'
+                        });
+                        $("#tbl").append(str);
+                            console.log(str);
+                    }, error(e) {
+                        console.log(e);
+                    }
+                })
+
+            })
+        })
+
+    </script>
+
+</head>
+
+<body>
+    <input type="date" id="st">
+    <button id="btn">조회</button>
+    <table id="tbl" border="1px; solid;" style="border-collapse: collapse; text-align: center;">
+        <thead>
+            <tr>
+                <th>순위</th>
+                <th>영화명</th>
+                <th>개봉일</th>
+                <th>매출액</th>
+                <th>누적 매출액</th>
+                <th>관객수</th>
+                <th>누적 관객수</th>
+                <th>당일 스크린 수</th>
+            </tr>
+        </thead>
+        <tbody id="tbl">
+        </tbody>
+    </table>
+</body>
+
+</html>

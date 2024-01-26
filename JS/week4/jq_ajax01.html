@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jquery ajax</title>
+    <script src="jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#btn').click(function(){
+                //$.ajax 함수는 비동기적으로 http 요청을 수행하는데 사용 됨
+                //다양한 파라미터를 설정할 수 있어서 매우 유연함
+                $.ajax({
+                    //url 요청, type:요청타입(GET, POST, PUT, DELETE...)
+                    //data: 전송데이터, dataType: 리턴타입, success:요청성공시 호출 될 콜백함수
+                    url:"https://api.upbit.com/v1/market/all"
+                    ,type: "GET"
+                    ,dataType: "json"
+                    ,success: function(res){
+                        //응답 데이터는 res에 담김 이름을 뭐라고 넣어도 상관은 없음
+                        // 처음부터 객체로 오기때문에 따로 파싱할 필요가 없음
+                        console.log(res);
+                    }, error(e){
+                        console.log(e);
+                    }
+                });
+            })
+
+        })
+    </script>
+</head>
+<body>
+    <input type="button" id="btn" value="요청">
+</body>
+</html>

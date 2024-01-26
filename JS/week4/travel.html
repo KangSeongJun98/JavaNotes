@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.7.1.js"></script>
+    <title>대전 문화광관</title>
+    <!-- 관광지 API 정리 -->
+    <script> 
+    let url = 'https://apis.data.go.kr/6300000/openapi2022/tourspot/gettourspot';
+    let key = 'SudFCGFUojP6E2mlBGcD2QkdOW1SasqMZnYoTBoCTadChypgZGOU6NNwOETmabkWMQ/5Xc+CNyFBE6L28AOrSQ==';
+    $(document).ready(function(){
+        $.ajax({
+             url:url
+            ,type:"GET"
+            ,data : {serviceKey:key
+                    ,pageNo:'1'
+                    ,numOfRows:'10'}
+            ,success:function(res){
+                let str ='';
+                let obj = res['response']['body']['items']
+                $.each(obj, function(i, item){
+                    str += '<a href="' + item['urlAddr'] + '" target="_blank">' + item['tourspotNm'] + '</a><br>';
+                    str += item['refadNo'] // 전화번호
+                    str += item['mngTime'] // 영업시간
+                    str += item['tourspotAddr'] //신주소
+                    str += item['mapLat'] // 위도
+                    str += item['mapLot'] // 경도 없는것도 많아서 신주소로 검색 할 예정
+                    console.log(item)
+                });
+                $("#content").append(str)
+                
+            },error(e){
+                console.log(e)
+            }
+        })
+    })
+    
+    </script>
+</head>
+<body>
+    <div id = "content"></div>
+</body>
+</html>

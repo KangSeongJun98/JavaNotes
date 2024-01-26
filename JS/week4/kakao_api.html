@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>다음 검색</title>
+</head>
+<body>
+    <input type="text" placeholder="검색어" id = "query">
+    <button type="button" onclick="search()">검색</button>
+    <div id = "result">
+        <table id = "tbl"></table>
+    </div>
+    <script>
+        function search(){
+            let tbl = document.getElementById("result");
+            let input = document.getElementById("query");
+            let query = input.value;
+            // 한글 인코딩 할 때 사용
+            let encoding_query = encodeURIComponent(query);
+            input.value = '';
+            let url = "https://dapi.kakao.com/v2/search/web?sort=accuracy&query="+encoding_query;
+            let ajax = new XMLHttpRequest();
+            ajax.open("GET", url, true);
+            ajax.setRequestHeader('Authorization','KakaoAK 8831c10c403fa9b36f7c9a72d6e804ed')
+            ajax.setRequestHeader('Content-Type','application/json; charset = utf-8' );
+            ajax.onreadystatechange = function(){
+                if(ajax.readyState == 4 && ajax.status == 200){
+                    let obj =  JSON.parse(ajax.responseText)
+                    // console.log(obj);
+                    let arr = obj['documents'];
+                    let str = "";
+                    for( i=0; i<arr.length; i++){
+                        console.log(arr[i])
+                        str += "<tr>"
+                        str += "<td><a href ='"+ arr[i]['url']+"'>"+ arr[i]['title'] +"</a></td>"
+                        str += "<td>"+ arr[i]['contents'] +"</td>"  
+                        str += "<tr>" 
+                    }
+                    document.getElementById('tbl').innerHTML = str;
+                }
+            }
+            ajax.send();
+        }
+    </script>
+</body>
+</html>
