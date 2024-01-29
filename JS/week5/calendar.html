@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <title>Document</title>
+    <script>
+        let localDate = [];
+
+        // 1.최초에는 events 데이터가 0
+        // 2.캘린더에서 이벤트 추가시 로컬스토리지에 저장
+        // 3. 브라우저 종료 후에 다시 브라우저를 열었을 때 이전 내용이 캘린더에 출력
+        window.onload = function () {
+            //로컬스토리지 값 가져와서 객체로
+            let data = localStorage.getItem("events");
+            let obj = JSON.parse(data)
+            let str = '';
+            let eventsArray = [];
+
+            console.log(data);
+            for (let i in obj) {
+                let eventObj = {
+                    title: obj[i]["title"],
+                    start: obj[i]["start"]
+                };
+                eventsArray.push(eventObj);
+            }  
+            console.log("eventObj :" + eventsArray)
+            console.log(typeof (eventsArray))
+            let calendarDiv = document.getElementById("calendar");
+            let calendar = new FullCalendar.Calendar(calendarDiv, {
+                initialView: 'dayGridMonth'
+                , events: eventsArray
+                // 이벤트 있는 부분 클릭시
+                , eventClick: function (res) {
+                    alert(`이벤트 내용: ${res.event.title}`)
+                    let action = prompt("d:삭제, e:수정")
+                    if (action == 'd') {  //삭제
+                        res.event.remove();
+                        let resDate = res.event.start;
+                        let year = resDate.getFullYear();
+                        const month = resDate.getMonth() + 1;
+                        const date = resDate.getDate();
+                        let format = year + "-" + (("00" + month.toString()).slice(-2)) + "-" + (("00" + date.toString()).slice(-2));
+                        for (i = 0; i < localDate.length; i++) {
+                            console.log("포맷: " + format)
+                            console.log("로컬: " + localDate[i]['start']);
+                            if (localDate[i]['start'] == format) {
+                                localDate.splice(i, i + 1);
+                                console.log("확인용")
+                            }
+                        }
+                        localStorage.setItem("events", JSON.stringify(localDate));
+
+                    } else if (action == 'e') { //수정
+                        let newMsg = prompt("수정 내용을 입력해주세요")
+                        if (newMsg) {
+                            res.event.setProp("title", newMsg);
+                            let resDate = res.event.start;
+                            let year = resDate.getFullYear();
+                            const month = resDate.getMonth() + 1;
+                            const date = resDate.getDate();
+                            let format = year + "-" + (("00" + month.toString()).slice(-2)) + "-" + (("00" + date.toString()).slice(-2));
+                            for (i = 0; i < localDate.length; i++) {
+                                console.log("포맷: " + format)
+                                console.log("로컬: " + localDate[i]['start']);
+                                if (localDate[i]['start'] == format) {
+                                    localDate[i]['title'] = newMsg;
+                                    console.log("확인용")
+                                }
+                            }
+                            localStorage.setItem("events", JSON.stringify(localDate));
+                        }
+                    }
+                }
+                // 이벤트 없는 부분 클릭시
+                , dateClick: function (res) {
+                    let msg = prompt("내용을 입력하세요")
+                    let eventData;
+                    if (msg) {
+                        eventData = {
+                            title: msg
+                            , start: res.dateStr
+                        }
+                        calendar.addEvent(eventData);
+                        localDate.push(eventData);
+                        localStorage.setItem("events", JSON.stringify(localDate));
+                    }
+                }
+            });
+            calendar.render()
+        }
+    </script>
+</head>
+
+<body>
+    <div id="calendar" style="width: 800px;"></div>
+</body>
+
+</html>

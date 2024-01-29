@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- accpet 파일 찾기에 포멧 설정 -->
+    <input type="file" id = "imgFile" accept="image/*">
+    <img src="" style="max-width: 300px"; id= "preview"; alt="">
+    <script>
+        document.getElementById("imgFile").addEventListener('change',function(e){
+            let file = e.target.files[0]; // 선택된 파일
+            if(file && file.type.match('image,*')){
+            let reader = new FileReader();
+            reader.onload = function(event){
+                document.getElementById("preview").src = event.target.result;
+            }
+            reader.readAsDataURL(file)
+            }else{
+                alter("유효한 파일을 선택해주세요")
+                
+            }
+        });
+    </script>
+</body>
+</html>

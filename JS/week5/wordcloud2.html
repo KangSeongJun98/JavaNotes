@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.1.0/wordcloud2.js"></script>
+    <title>Document</title>
+    <script>
+        //파일 읽어오기
+        let reader = new FileReader();
+        reader.onload = function(e){
+            let data = e.target.result;
+            let wordArr = [];
+            console.log(data)
+            let obj = countWords(data)
+            console.log(obj)
+            for(let key in obj){
+                wordArr.push([key, obj[key]])
+            }
+            WordCloud(document.getElementById("myCanvas"),{list:wordArr})
+        }
+        countWords = (data) =>{
+            let counts = {};
+            let arr = data.split(" ");
+            for(let word of arr){
+                word = word.replaceAll('"','').replaceAll("'",'').trim();
+                //비어있거나 1글자 제외
+                if(word !== '' && word.length >1){
+                    // 있으면 기존꺼에 +10 없으면 10 할당
+                    counts[word] = counts[word] ? counts[word] +10 : 10
+                }
+            }
+            return counts;
+        }
+
+        readFile = () =>{
+            let files = document.getElementById("textFile").files;
+            for(i =0 ; i<files.length; i++){
+                let file = files[i]
+                console.log(`file nm: ${file.name}`);
+                console.log(`file type: ${file.type}`);
+                console.log(`file size: ${file.size}`);
+                if(file.name.indexOf('.csv') || file.name.indexOf('.txt')){
+                    reader.readAsText(file);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <input type="file" id="textFile" onchange="readFile()">
+    <canvas id="myCanvas" width="800" height="800"></canvas>
+</body>
+</html>
