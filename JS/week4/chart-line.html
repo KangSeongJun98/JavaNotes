@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>라인차트</title>
+    <script>
+        $(document).ready(function(){
+             let ctx = document.getElementById("myChart");
+             let obj = {};
+             let movieAttendance = {};
+             let configs = {
+                  type : 'line'
+                 ,data : { 
+                      labels : []
+                     ,datasets :  [ 
+                                      {  label : []
+                                         ,data : []}
+                                   ]
+                 }
+             }
+             let myChart = new Chart(ctx, configs);
+  
+             $("#btn").click(function(){
+                 // 1.사용자 입력 날짜  a ~ b 까지의 날짜생성.
+                 // 2.각 날짜별로 api 요청 
+                 //     응답받은 데이터에서 해당일자 관객수 가져오기
+                 // 3.차트 업데이트 
+                 let st = getDate($("#st").val().replaceAll("-",""));
+                 let end = getDate($("#end").val().replaceAll("-",""));
+                 console.log(st, end);
+                 let dates = [];
+                 while (st <= end){
+                    dates.push(formatDate(st));
+                    st = new Date(st.setDate(st.getDate() + 1));
+                 }
+                
+                for(let d in dates){
+                    request_movie(dates[d]);
+                }            
+                for(let date in obj){
+                    for(let movieData of obj[date]){
+                        let [movieName, attend] = movieData;
+                        // 영화명이 movieAttendance 에 없으면
+                        if(!movieAttendance[movieName]){
+                            //초기화
+                            movieAttendance[movieName] = [[],[]];
+                        }
+                        movieAttendance[movieName][0].push(attend);
+                        movieAttendance[movieName][1].push(date);
+                    }
+                }
+                console.log(movieAttendance);
+                let names = Object.keys(movieAttendance);
+                for(i=0; i<names.length; i++){
+                    let str = `<option value = "${names[i]}">${names[i]}</option>`
+                    $("#sel").append(str);
+                }
+
+             });
+
+             //select box 선택시 차트 업데이트
+             $("#sel").change(function(){
+                let nm = $(this).val()
+                configs.data.labels = movieAttendance[nm][1]//날짜
+                configs.data.datasets[0].data = movieAttendance[nm][0]//관객수
+                configs.data.datasets[0]['label'] = nm;
+                myChart.update();
+             })
+             function getDate(p_st){
+                    let year = p_st.substring(0, 4);
+                    let month = p_st.substring(4, 6) - 1;
+                    let day = p_st.substring(6, 8);
+                    return new Date(year, month, day);
+             }
+             function formatDate(date){
+                  let year = date.getFullYear();
+                  // 1자리 일경우 0 추가
+                  let month = (date.getMonth() + 1).toString().padStart(2, '0');
+                  let day = date.getDate().toString().padStart(2, '0');
+                  return year + month + day;
+             }
+             function request_movie(dt){
+                let url ="http://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json"
+                let key ="7f7314005c9a1bb8ee535cedbd043a27";
+                 
+                 $.ajax({
+                     url:url
+                    ,data : {key : key, targetDt: dt}
+                    ,type : 'GET'
+                    ,dataType : 'json'
+                    ,async :false   // 동기방식으로 호출 
+                    ,success: function (res){
+                        console.log(res)
+                        let arr = res['boxOfficeResult']['dailyBoxOfficeList']
+                        let all = [];
+                        for(i=0; i<arr.length; i++){
+                            all.push([arr[i]['movieNm'],arr[i]['audiCnt']])
+                        }
+                        obj[dt] = all;
+                    },error: function(e){
+                        console.log(e);
+                    }
+                });
+             }
+        });
+    </script>
+</head>
+<body>
+    <h3>주간 박스오피스(라인차트)</h3>
+    <div style="width: 600px; height: 400px;">
+        <canvas id="myChart"></canvas>
+    </div>
+    <input type="date" id="st">
+    <input type="date" id="end">
+    <button id="btn">조회</button>
+    <select id="sel" name="">
+        <option value="">선택해주세요</option>
+    </select>
+
+</body>
+</html>
