@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이미지 표시 예제</title>
+</head>
+<body>
+  <h1>이미지 표시 예제</h1>
+  <div id="image-container"></div>
+
+  <script>
+    async function extractImageUrl(url) {
+      try {
+        // 주어진 URL에서 HTML 내용을 가져옴
+        const response = await fetch(url);
+        const html = await response.text();
+
+        // DOM 파서 생성 및 HTML 내용 파싱
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        // DOM 조작을 사용하여 이미지 URL 추출
+        const image_url = doc.querySelector('meta[property="og:image"]').content;
+
+        return image_url;
+      } catch (error) {
+        console.error('에러:', error);
+        return null;
+      }
+    }
+
+    async function displayImage() {
+      // 해당 부분에 url 추가 cross 오류가 나기 때문에 프록시 서버 사용
+      const proxy = 'https://cors-anywhere.herokuapp.com/'
+      const url = proxy+'https://n.news.naver.com/mnews/article/477/0000471468?sid=106'; // 이미지 URL을 가져올 웹 페이지의 URL로 교체
+      const imageUrl = await extractImageUrl(url);
+
+      if (imageUrl) {
+        // 이미지를 표시할 div 요소 가져오기
+        const imageContainer = document.getElementById('image-container');
+
+        // Image 객체 생성
+        const image = new Image();
+        image.src = imageUrl;
+
+        // 이미지를 div에 추가
+        imageContainer.appendChild(image);
+      } else {
+        console.error('이미지 URL을 가져오는 데 실패했습니다.');
+      }
+    }
+
+    // 페이지 로드 시 이미지 표시 함수 호출
+    window.onload = displayImage;
+  </script>
+</body>
+</html>
