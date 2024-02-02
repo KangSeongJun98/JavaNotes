@@ -21,7 +21,7 @@
                 //네이버 뉴스 api 가져오기 크로스 오류 있어서 프록시 서버 활용
                 let sel_val = $("#sel").val();
                 //관련도순 정확도순 정렬
-                let api_url = 'https://cors-anywhere.herokuapp.com/https://openapi.naver.com/v1/search/news?query=' + encodeURI(query)+ '&sort='+sel_val;
+                let api_url = 'https://cors-anywhere.herokuapp.com/https://openapi.naver.com/v1/search/news?query=' + encodeURI(query) + '&sort=' + sel_val;
 
                 $.ajax({
                     url: api_url,
@@ -32,9 +32,12 @@
                     },
                     method: 'GET',
                     success: function (res) {
-                        console.log(res)
-                        //console.log(res['items'][0]['description']);
-                        // 여기서 결과를 처리하거나 표시할 수 있습니다.
+                        for (let i = 0; i < res['items'].length; i++) {
+                            console.log(res['items'][i]['title']);
+                            console.log(res['items'][i]['description']);
+                            console.log(res['items'][i]['link']);
+                            console.log(" ")+"<br>";
+                        }
                     },
                     error: function (xhr, status, error) {
                         console.log(sel_val)
@@ -44,18 +47,17 @@
             }
         });
     </script>
-    </script>
 </head>
 
 <body>
     <input type="text" id="queryInput" placeholder="검색어 입력">
-    <select id = "sel">
+    <select id="sel">
         <option value="">선택해주세요</option>
         <option value="date">최신순</option>
         <option value="sim">정확도순</option>
     </select>
     <button id="searchBtn">검색</button>
-    
+
 </body>
 
 </html>

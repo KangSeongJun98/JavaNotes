@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>네이버 뉴스 API</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var client_id = '1EuTthLmeK11SN55TWmF';
+            var client_secret = '2WZ10hhpov';
+
+            $('#searchBtn').click(function () {
+                var query = $('#queryInput').val();
+                searchNews(query);
+            });
+
+            function searchNews(query) {
+                var sel_val = $("#sel").val();
+                var api_url = 'https://cors-anywhere.herokuapp.com/https://openapi.naver.com/v1/search/news?query=' + encodeURI(query) + '&sort=' + sel_val;
+
+                $.ajax({
+                    url: api_url,
+                    headers: {
+                        'X-Naver-Client-Id': client_id,
+                        'X-Naver-Client-Secret': client_secret
+                    },
+                    method: 'GET',
+                    success: function (res) {
+                        for (var i = 0; i < res['items'].length; i++) {
+                            console.log(res['items'][i]['title']);
+                            console.log(res['items'][i]['description']);
+                            console.log(res['items'][i]['link']);
+                            console.log(" ");
+                            displayImage(res['items'][i]['link']);
+                        }
+                    },
+                    error: function (xhr, status) {
+                        console.log('Error: ' + status);
+                    }
+                });
+            }
+        });
+
+        function extractImageUrl(url) {
+            return fetch(url)
+                .then(function(response) {
+                    return response.text();
+                })
+                .then(function(html) {
+                    var doc = new DOMParser().parseFromString(html, 'text/html');
+                    var metaTag = doc.querySelector('meta[property="og:image"]');
+                    return metaTag ? metaTag.content : "이미지 없음";
+                })
+                .catch(function(error) {
+                    console.error('Error:', error);
+                    return null;
+                });
+        }
+
+        function displayImage(url) {
+            var proxy = 'https://cors-anywhere.herokuapp.com/';
+            var url = proxy + url;
+            extractImageUrl(url)
+                .then(function(imageUrl) {
+                    var imageContainer = document.getElementById('image-container');
+                    if (imageUrl !== "이미지 없음") {
+                        var image = new Image();
+                        image.src = imageUrl;
+                        image.alt = '가져온 이미지';
+                        imageContainer.appendChild(image);
+                    } else {
+                        var noImageText = document.createTextNode("이미지 없음");
+                        imageContainer.appendChild(noImageText);
+                    }
+                });
+        }
+    </script>
+</head>
+
+<body>
+    <input type="text" id="queryInput" placeholder="검색어 입력">
+    <select id="sel">
+        <option value="">선택해주세요</option>
+        <option value="date">최신순</option>
+        <option value="sim">정확도순</option>
+    </select>
+    <button id="searchBtn">검색</button>
+    <div id="image-container"></div>
+</body>
+
+</html>
