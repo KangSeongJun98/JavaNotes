@@ -1,0 +1,40 @@
+2024-02-20 16:05:04,639 - logger_test颇老 - DEBUG - debug test
+2024-02-20 16:05:04,648 - logger_test颇老 - INFO - info test
+2024-02-20 16:05:04,648 - logger_test颇老 - WARNING - warning test
+2024-02-20 16:05:04,648 - logger_test颇老 - ERROR - division by zero
+Traceback (most recent call last):
+  File "C:\dev\pythonProject\pythonProject\python_lib\logger_test.py", line 7, in <module>
+    result = 2/0
+             ~^~
+ZeroDivisionError: division by zero
+2024-02-20 16:05:04,649 - logger_test颇老 - CRITICAL - !!!!!!!!!!
+2024-02-20 16:05:08,622 - logger_test颇老 - DEBUG - debug test
+2024-02-20 16:05:08,622 - logger_test颇老 - INFO - info test
+2024-02-20 16:05:08,622 - logger_test颇老 - WARNING - warning test
+2024-02-20 16:05:08,622 - logger_test颇老 - ERROR - division by zero
+Traceback (most recent call last):
+  File "C:\dev\pythonProject\pythonProject\python_lib\logger_test.py", line 7, in <module>
+    result = 2/0
+             ~^~
+ZeroDivisionError: division by zero
+2024-02-20 16:05:08,634 - logger_test颇老 - CRITICAL - !!!!!!!!!!
+2024-02-20 16:12:00,374 - logger_test颇老 - DEBUG - debug test
+2024-02-20 16:12:00,374 - logger_test颇老 - INFO - info test
+2024-02-20 16:12:00,374 - logger_test颇老 - WARNING - warning test
+2024-02-20 16:12:00,374 - logger_test颇老 - ERROR - division by zero
+Traceback (most recent call last):
+  File "C:\dev\pythonProject\pythonProject\python_lib\logger_test.py", line 7, in <module>
+    result = 2/0
+             ~^~
+ZeroDivisionError: division by zero
+2024-02-20 16:12:00,376 - logger_test颇老 - CRITICAL - !!!!!!!!!!
+2024-02-20 16:23:37,660 - logger_test颇老 - DEBUG - debug test
+2024-02-20 16:23:37,660 - logger_test颇老 - INFO - info test
+2024-02-20 16:23:37,660 - logger_test颇老 - WARNING - warning test
+2024-02-20 16:23:37,660 - logger_test颇老 - ERROR - division by zero
+Traceback (most recent call last):
+  File "C:\dev\pythonProject\pythonProject\python_lib\logger_test.py", line 7, in <module>
+    result = 2/0
+             ~^~
+ZeroDivisionError: division by zero
+2024-02-20 16:23:37,662 - logger_test颇老 - CRITICAL - !!!!!!!!!!
